@@ -45,12 +45,20 @@ public class UserResource {
 		User insertedUser = service.insertUser(user);
 
 		// Crie a URI com base no ID do usuário inserido
-		URI uri = ServletUriComponentsBuilder
-				.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(insertedUser.getId())
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(insertedUser.getId())
 				.toUri();
 
 		return ResponseEntity.created(uri).build();
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteById(@PathVariable String id) {
+
+		service.deleteUserById(id);
+
+		// Retorne uma resposta com código HTTP 204 - No Content após a exclusão
+		// bem-sucedida
+		return ResponseEntity.noContent().build();
 	}
 
 }

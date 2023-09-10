@@ -30,17 +30,24 @@ public class UserService {
 		}
 
 	}
-	
-	public User insertUser(User user) {
-	    User insertedUser = repo.insert(user);
 
-	    if (insertedUser == null) {
-	        throw new ObjectNotFoundException("Objeto não inserido");
-	    } else {
-	        return insertedUser;
-	    }
+	public User insertUser(User user) {
+		User insertedUser = repo.insert(user);
+
+		if (insertedUser == null) {
+			throw new ObjectNotFoundException("Objeto não inserido");
+		} else {
+			return insertedUser;
+		}
 	}
-	
+
+	public void deleteUserById(String id) {
+		findById(id);
+		repo.deleteById(id);
+
+	}
+
+
 	public User fromDTO(UserDTO objDto) {
 		return new User(objDto.getId(), objDto.getName(), objDto.getEmail());
 	}
