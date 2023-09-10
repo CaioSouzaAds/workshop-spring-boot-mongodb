@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.caio.workshopmongo.domain.User;
+import com.caio.workshopmongo.dto.UserDTO;
 import com.caio.workshopmongo.repository.UserRepository;
 import com.caio.workshopmongo.services.excepition.ObjectNotFoundException;
 
@@ -29,4 +30,19 @@ public class UserService {
 		}
 
 	}
+	
+	public User insertUser(User user) {
+	    User insertedUser = repo.insert(user);
+
+	    if (insertedUser == null) {
+	        throw new ObjectNotFoundException("Objeto não inserido");
+	    } else {
+	        return insertedUser;
+	    }
+	}
+	
+	public User fromDTO(UserDTO objDto) {
+		return new User(objDto.getId(), objDto.getName(), objDto.getEmail());
+	}
+
 }
