@@ -46,7 +46,29 @@ public class UserService {
 		repo.deleteById(id);
 
 	}
+	
+	public User updateUser(User obj) {
+        // Verifique se o usuário com o ID fornecido existe
+        User existingUser = findById(obj.getId());
+        
+        updateData(existingUser, obj);
+        
+        
 
+        // Salve as mudanças no repositório
+        User updatedUser = repo.save(existingUser);
+
+        return updatedUser;
+    }
+	
+	
+
+
+	private void updateData(User existingUser, User obj) {
+		existingUser.setName(obj.getName());
+        existingUser.setEmail(obj.getEmail());
+		
+	}
 
 	public User fromDTO(UserDTO objDto) {
 		return new User(objDto.getId(), objDto.getName(), objDto.getEmail());

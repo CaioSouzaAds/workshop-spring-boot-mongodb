@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -59,6 +60,21 @@ public class UserResource {
 		// Retorne uma resposta com código HTTP 204 - No Content após a exclusão
 		// bem-sucedida
 		return ResponseEntity.noContent().build();
+	}
+
+	// Endpoint para atualizar um usuário pelo ID
+	@PutMapping("/{id}")
+	public ResponseEntity<UserDTO> updateUserById(@PathVariable String id, @RequestBody UserDTO updatedUserDTO) {
+		// Chame o serviço para atualizar o usuário
+		User obj = service.fromDTO(updatedUserDTO);
+		obj.setId(id);
+
+		User updatedUser = service.updateUser(obj);
+
+		// Retorne o usuário atualizado em um DTO
+		UserDTO updatedUserDto = new UserDTO(updatedUser);
+
+		return ResponseEntity.ok(updatedUserDto);
 	}
 
 }
